@@ -1,6 +1,6 @@
 /**
  * @license
- * 
+ *
  * Copyright 2019 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,12 +17,15 @@
  */
 
 /**
- * @fileoverview Example of including Blockly with using Webpack with 
+ * @fileoverview Example of including Blockly with using Webpack with
  *               defaults: (English lang & JavaScript generator).
  * @author samelh@google.com (Sam El-Husseini)
  */
 
 import * as Blockly from 'blockly';
+delete Blockly.Blocks['controls_forEach'];
+import 'block-lexical-variables';
+import { init } from 'block-lexical-variables';
 
 document.addEventListener("DOMContentLoaded", function () {
     const workspace = Blockly.inject('blocklyDiv',
@@ -30,6 +33,9 @@ document.addEventListener("DOMContentLoaded", function () {
             toolbox: document.getElementById('toolbox'),
             media: 'media/'
         });
+
+    // Load lexical variable plugin
+    init(workspace);
 
     const lang = 'JavaScript';
     const button = document.getElementById('blocklyButton');
