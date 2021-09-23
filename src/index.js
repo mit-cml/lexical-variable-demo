@@ -22,10 +22,10 @@
  * @author samelh@google.com (Sam El-Husseini)
  */
 
-import * as Blockly from 'blockly';
-delete Blockly.Blocks['controls_forEach'];
-import 'block-lexical-variables';
-import { init } from 'block-lexical-variables';
+// import Blockly from 'blockly';
+// delete Blockly.Blocks['controls_forEach'];
+import '@markfriedman/blockly-block-lexical-variables';
+import { init, Blockly } from '@markfriedman/blockly-block-lexical-variables';
 
 document.addEventListener("DOMContentLoaded", function () {
     const workspace = Blockly.inject('blocklyDiv',
