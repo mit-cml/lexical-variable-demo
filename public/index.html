@@ -51,25 +51,41 @@
                 </value>
             </block>
             <block type="controls_whileUntil"></block>
-            <block type="controls_for">
-                <value name="FROM">
+<!--            <block type="controls_for">-->
+<!--                <value name="FROM">-->
+<!--                    <shadow type="math_number">-->
+<!--                        <field name="NUM">1</field>-->
+<!--                    </shadow>-->
+<!--                </value>-->
+<!--                <value name="TO">-->
+<!--                    <shadow type="math_number">-->
+<!--                        <field name="NUM">10</field>-->
+<!--                    </shadow>-->
+<!--                </value>-->
+<!--                <value name="BY">-->
+<!--                    <shadow type="math_number">-->
+<!--                        <field name="NUM">1</field>-->
+<!--                    </shadow>-->
+<!--                </value>-->
+<!--            </block>-->
+            <block type="controls_forRange">
+                <value name="START">
                     <shadow type="math_number">
                         <field name="NUM">1</field>
                     </shadow>
                 </value>
-                <value name="TO">
+                <value name="END">
                     <shadow type="math_number">
                         <field name="NUM">10</field>
                     </shadow>
                 </value>
-                <value name="BY">
+                <value name="STEP">
                     <shadow type="math_number">
                         <field name="NUM">1</field>
                     </shadow>
                 </value>
             </block>
-            <block type="controls_forRange"></block>
-<!--            <block type="controls_forEach"></block>-->
+            <block type="controls_forEach"></block>
             <block type="controls_flow_statements"></block>
         </category>
         <category id="catMath" colour="230" name="Math">
@@ -333,9 +349,16 @@
             </block>
         </category>
         <sep></sep>
-        <block type="global_declaration"></block>
-        <category id="catVariables" colour="330" custom="VARIABLE" name="Variables"></category>
-        <category id="catFunctions" colour="290" custom="PROCEDURE" name="Functions"></category>
+        <category id="catVariables" colour="330" name="Variables">
+            <block type="global_declaration"></block>
+            <block type="local_declaration_statement"></block>
+            <block type="local_declaration_expression"></block>
+            <block type="lexical_variable_get"></block>
+            <block type="lexical_variable_set"></block>
+        </category>
+        <category
+                id="catFunctions" colour="290" custom="PROCEDURE" name="Functions"
+        ></category>
     </xml>
 </body>
 

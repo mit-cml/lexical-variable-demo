@@ -23,9 +23,7 @@
  */
 
 import * as Blockly from 'blockly';
-delete Blockly.Blocks['controls_forEach'];
-import 'block-lexical-variables';
-import { init } from 'block-lexical-variables';
+import { init } from '@markfriedman/blockly-block-lexical-variables';
 
 document.addEventListener("DOMContentLoaded", function () {
     const workspace = Blockly.inject('blocklyDiv',
