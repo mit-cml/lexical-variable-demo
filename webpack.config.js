@@ -1,6 +1,6 @@
 /**
  * @license
- * 
+ *
  * Copyright 2019 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,6 +36,17 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'build'),
         filename: '[name].js'
+    },
+    module: {
+        rules: [
+            {
+                // test: /(blockly\/.*\.js)$/,
+                test: /\.js$/,
+                enforce: "pre",
+                // use: ["source-map-loader"],
+                use: [require.resolve('source-map-loader')],
+            },
+        ],
     },
     plugins: [
         new webpack.optimize.ModuleConcatenationPlugin(),
