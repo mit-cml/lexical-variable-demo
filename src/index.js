@@ -23,7 +23,7 @@
  */
 
 import * as Blockly from 'blockly';
-import { init } from '@markfriedman/blockly-block-lexical-variables';
+import * as LexicalVariables from '@mit-app-inventor/blockly-block-lexical-variables';
 
 document.addEventListener("DOMContentLoaded", function () {
     const workspace = Blockly.inject('blocklyDiv',
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
     // Load lexical variable plugin
-    init(workspace);
+    LexicalVariables.init(workspace);
 
     const lang = 'JavaScript';
     const button = document.getElementById('blocklyButton');
