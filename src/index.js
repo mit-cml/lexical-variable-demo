@@ -25,13 +25,6 @@
 import * as Blockly from 'blockly';
 import { init } from '@markfriedman/blockly-block-lexical-variables';
 
-// TODO: The following is a workaround until we rename (or alias)
-//  controls_forRange to controls_for.  We need this because
-//  we can't use controls_flow_statements within controls_forRange
-//  due to Blockly checking
-delete Blockly.Blocks['controls_for'];
-Blockly.Blocks['controls_for'] = Blockly.Blocks['controls_forRange'];
-
 document.addEventListener("DOMContentLoaded", function () {
     const workspace = Blockly.inject('blocklyDiv',
         {
