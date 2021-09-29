@@ -34,7 +34,7 @@ module.exports = {
         locale: './src/locale.js'
     },
     output: {
-        path: path.resolve(__dirname, 'build'),
+        path: path.resolve(__dirname, 'docs'),
         filename: '[name].js'
     },
     module: {
@@ -53,14 +53,14 @@ module.exports = {
         new CopyPlugin([
             {
                 from: path.resolve(__dirname, 'public'),
-                to: path.resolve(__dirname, 'build')
+                to: path.resolve(__dirname, 'docs')
             }
         ]),
         // Copy over media resources from the Blockly package
         new CopyPlugin([
             {
                 from: path.resolve(__dirname, './node_modules/blockly/media'),
-                to: path.resolve(__dirname, 'build/media')
+                to: path.resolve(__dirname, 'docs/media')
             }
         ])
     ],
