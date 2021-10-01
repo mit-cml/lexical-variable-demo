@@ -105,13 +105,13 @@
                     </shadow>
                 </value>
             </block>
-            <block type="math_change">
-                <value name="DELTA">
-                    <shadow type="math_number">
-                        <field name="NUM">1</field>
-                    </shadow>
-                </value>
-            </block>
+<!--            <block type="math_change">-->
+<!--                <value name="DELTA">-->
+<!--                    <shadow type="math_number">-->
+<!--                        <field name="NUM">1</field>-->
+<!--                    </shadow>-->
+<!--                </value>-->
+<!--            </block>-->
             <block type="math_round">
                 <value name="NUM">
                     <shadow type="math_number">
@@ -166,11 +166,11 @@
         <category id="catText" colour="160" name="Text">
             <block type="text"></block>
             <block type="text_join"></block>
-            <block type="text_append">
-                <value name="TEXT">
-                    <shadow type="text"></shadow>
-                </value>
-            </block>
+<!--            <block type="text_append">-->
+<!--                <value name="TEXT">-->
+<!--                    <shadow type="text"></shadow>-->
+<!--                </value>-->
+<!--            </block>-->
             <block type="text_length">
                 <value name="VALUE">
                     <shadow type="text">
@@ -187,8 +187,8 @@
             </block>
             <block type="text_indexOf">
                 <value name="VALUE">
-                    <block type="variables_get">
-                        <field name="VAR">text</field>
+                    <block type="lexical_variable_get">
+                        <field name="VAR"></field>
                     </block>
                 </value>
                 <value name="FIND">
@@ -199,15 +199,15 @@
             </block>
             <block type="text_charAt">
                 <value name="VALUE">
-                    <block type="variables_get">
-                        <field name="VAR">text</field>
+                    <block type="lexical_variable_get">
+                        <field name="VAR"></field>
                     </block>
                 </value>
             </block>
             <block type="text_getSubstring">
                 <value name="STRING">
-                    <block type="variables_get">
-                        <field name="VAR">text</field>
+                    <block type="lexical_variable_get">
+                        <field name="VAR"></field>
                     </block>
                 </value>
             </block>
@@ -256,29 +256,29 @@
             <block type="lists_isEmpty"></block>
             <block type="lists_indexOf">
                 <value name="VALUE">
-                    <block type="variables_get">
-                        <field name="VAR">list</field>
+                    <block type="lexical_variable_get">
+                        <field name="VAR"></field>
                     </block>
                 </value>
             </block>
             <block type="lists_getIndex">
                 <value name="VALUE">
-                    <block type="variables_get">
-                        <field name="VAR">list</field>
+                    <block type="lexical_variable_get">
+                        <field name="VAR"></field>
                     </block>
                 </value>
             </block>
             <block type="lists_setIndex">
                 <value name="LIST">
-                    <block type="variables_get">
-                        <field name="VAR">list</field>
+                    <block type="lexical_variable_get">
+                        <field name="VAR"></field>
                     </block>
                 </value>
             </block>
             <block type="lists_getSublist">
                 <value name="LIST">
-                    <block type="variables_get">
-                        <field name="VAR">list</field>
+                    <block type="lexical_variable_get">
+                        <field name="VAR"></field>
                     </block>
                 </value>
             </block>
