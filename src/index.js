@@ -22,8 +22,8 @@
  * @author samelh@google.com (Sam El-Husseini)
  */
 
-import * as Blockly from 'blockly';
-import * as LexicalVariables from '@mit-app-inventor/blockly-block-lexical-variables';
+import Blockly from 'https://cdn.skypack.dev/blockly';
+import * as LexicalVariables from 'https://cdn.skypack.dev/@mit-app-inventor/blockly-block-lexical-variables';
 
 document.addEventListener("DOMContentLoaded", function () {
     const workspace = Blockly.inject('blocklyDiv',
