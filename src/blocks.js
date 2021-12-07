@@ -5,7 +5,7 @@ import {
   FieldFlydown
 } from '@mit-app-inventor/blockly-block-lexical-variables/src/fields/field_flydown';
 
-Blockly.Blocks['events'] = {
+Blockly.Blocks['events_error'] = {
   init: function() {
     this.appendDummyInput()
         .appendField('when')
@@ -20,23 +20,17 @@ Blockly.Blocks['events'] = {
     this.setTooltip("");
     this.setHelpUrl("");
   },
-  referenceResults: function(name, prefix, env) {
-    let errStrVar = this.getFieldValue('ERR_STR_VAR');
-    const newEnv = env.concat([errStrVar]);
-    const doResults = LexicalVariable.referenceResult(
-        this.getInputTargetBlock('DO'), name, prefix, newEnv);
-    const nextResults = LexicalVariable.referenceResult(
-        LexicalVariable.getNextTargetBlock(this), name, prefix, env);
-    return [doResults, nextResults];
-  },
   withLexicalVarsAndPrefix: function(child, proc) {
-    if (this.getInputTargetBlock('DO') == child) {
-      const lexVar = this.getFieldValue('ERR_STR_VAR');
-      proc(lexVar, '');
+    const params = this.declaredNames();
+    // not arguments_ instance var
+    for (let i = 0; i < params.length; i++) {
+      proc(params[i], '');
     }
   },
   getVars: function() {
-    return [this.getFieldValue('ERR_STR_VAR')];
+    return [
+      this.getFieldValue('ERR_STR_VAR'),
+    ];
   },
   blocksInScope: function() {
     const doBlock = this.getInputTargetBlock('DO');
@@ -47,59 +41,100 @@ Blockly.Blocks['events'] = {
     }
   },
   declaredNames: function() {
-    return [this.getFieldValue('ERR_STR_VAR')];
+    return [
+      this.getFieldValue('ERR_STR_VAR'),
+    ];
   },
   renameVar: function(oldName, newName) {
-    if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
+    if (Blockly.Names.equals(oldName, this.getFieldValue('ERR_STR_VAR'))) {
       this.setFieldValue(newName, 'ERR_STR_VAR');
     }
   },
   renameBound: function(boundSubstitution, freeSubstitution) {
-    const oldIndexVar = this.getFieldValue('VAR');
-    const newIndexVar = boundSubstitution.apply(oldIndexVar);
-    if (newIndexVar !== oldIndexVar) {
-      this.renameVar(oldIndexVar, newIndexVar);
-      const indexSubstitution = Blockly.Substitution.simpleSubstitution(
-          oldIndexVar, newIndexVar);
-      const extendedFreeSubstitution = freeSubstitution.extend(
-          indexSubstitution);
-      LexicalVariable.renameFree(this.getInputTargetBlock('DO'),
-          extendedFreeSubstitution);
-    } else {
-      const removedFreeSubstitution = freeSubstitution.remove([oldIndexVar]);
-      LexicalVariable.renameFree(this.getInputTargetBlock('DO'),
-          removedFreeSubstitution);
-    }
-    if (this.nextConnection) {
-      const nextBlock = this.nextConnection.targetBlock();
-      LexicalVariable.renameFree(nextBlock, freeSubstitution);
-    }
+    const paramSubstitution = boundSubstitution.restrictDomain(
+        this.declaredNames());
+    this.renameVars(paramSubstitution);
+    const newFreeSubstitution = freeSubstitution.extend(paramSubstitution);
+    LexicalVariable.renameFree(
+        this.getInputTargetBlock(this.bodyInputName), newFreeSubstitution);
   },
   renameFree: function(freeSubstitution) {
-    const indexVar = this.getFieldValue('ERR_STR_VAR');
-    const bodyFreeVars = LexicalVariable.freeVariables(
-        this.getInputTargetBlock('DO'));
-    bodyFreeVars.deleteName(indexVar);
-    const renamedBodyFreeVars = bodyFreeVars.renamed(freeSubstitution);
-    if (renamedBodyFreeVars.isMember(indexVar)) { // Variable capture!
-      const newIndexVar = FieldLexicalVariable.nameNotIn(indexVar,
-          renamedBodyFreeVars.toList());
-      const boundSubstitution = Blockly.Substitution.simpleSubstitution(
-          indexVar, newIndexVar);
-      this.renameBound(boundSubstitution, freeSubstitution);
-    } else {
-      this.renameBound(new Blockly.Substitution(), freeSubstitution);
-    }
+    // There shouldn't be any free variables
   },
   freeVariables: function() { // return the free variables of this block
-    const result = LexicalVariable.freeVariables(
-        this.getInputTargetBlock('DO'));
-    // Remove bound index variable from body free vars
-    result.deleteName(this.getFieldValue('ERR_STR_VAR'));
-    if (this.nextConnection) {
-      const nextBlock = this.nextConnection.targetBlock();
-      result.unite(LexicalVariable.freeVariables(nextBlock));
-    }
-    return result;
+    // There shouldn't be any free variables, so this should return an empty set.
+    // Should return the empty set: something is wrong if it doesn't!
+    return new Blockly.NameSet();
+  }
+};
+
+Blockly.Blocks['events_keypress'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField('when')
+        .appendField('AnyKeyboardKeyPressed')
+        .appendField(
+            new FieldParameterFlydown('key_code', true, FieldFlydown.DISPLAY_BELOW),
+            'KEYCODE_VAR')
+        .appendField(
+            new FieldParameterFlydown('key_name', true, FieldFlydown.DISPLAY_BELOW),
+            'KEYNAME_VAR');
+    this.appendStatementInput("DO")
+        .setCheck(null)
+        .appendField("do");
+    this.setColour(20);
+    this.setTooltip("");
+    this.setHelpUrl("");
   },
+  withLexicalVarsAndPrefix: function(child, proc) {
+    const params = this.declaredNames();
+    // not arguments_ instance var
+    for (let i = 0; i < params.length; i++) {
+      proc(params[i], '');
+    }
+  },
+  getVars: function() {
+    return [
+        this.getFieldValue('KEYCODE_VAR'),
+        this.getFieldValue('KEYNAME_VAR')
+    ];
+  },
+  blocksInScope: function() {
+    const doBlock = this.getInputTargetBlock('DO');
+    if (doBlock) {
+      return [doBlock];
+    } else {
+      return [];
+    }
+  },
+  declaredNames: function() {
+    return [
+      this.getFieldValue('KEYCODE_VAR'),
+      this.getFieldValue('KEYNAME_VAR')
+    ];
+  },
+  renameVar: function(oldName, newName) {
+    if (Blockly.Names.equals(oldName, this.getFieldValue('KEYCODE_VAR'))) {
+      this.setFieldValue(newName, 'KEYCODE_VAR');
+    }
+    if (Blockly.Names.equals(oldName, this.getFieldValue('KEYNAME_VAR'))) {
+      this.setFieldValue(newName, 'KEYNAME_VAR');
+    }
+  },
+  renameBound: function(boundSubstitution, freeSubstitution) {
+    const paramSubstitution = boundSubstitution.restrictDomain(
+        this.declaredNames());
+    this.renameVars(paramSubstitution);
+    const newFreeSubstitution = freeSubstitution.extend(paramSubstitution);
+    LexicalVariable.renameFree(
+        this.getInputTargetBlock(this.bodyInputName), newFreeSubstitution);
+  },
+  renameFree: function(freeSubstitution) {
+    // There shouldn't be any free variables
+  },
+  freeVariables: function() { // return the free variables of this block
+    // There shouldn't be any free variables, so this should return an empty set.
+    // Should return the empty set: something is wrong if it doesn't!
+    return new Blockly.NameSet();
+  }
 };
