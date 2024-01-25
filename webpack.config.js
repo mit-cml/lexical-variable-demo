@@ -30,7 +30,6 @@ module.exports = {
     mode: 'development',
     entry: {
         index: './src/index.js',
-        generator: './src/generator.js',
         locale: './src/locale.js'
     },
     output: {
@@ -42,6 +41,9 @@ module.exports = {
             {
                 // test: /(blockly\/.*\.js)$/,
                 test: /\.js$/,
+                resolve: {
+                    fullySpecified: false,
+                },
                 enforce: "pre",
                 // use: ["source-map-loader"],
                 use: [require.resolve('source-map-loader')],
