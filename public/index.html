@@ -27,7 +27,18 @@
     <div id='blocklyDiv'>
     </div>
 
-    <script type='text/javascript' src='./index.js'></script>
+    <!-- Load Blockly core -->
+    <script src="https://unpkg.com/blockly/blockly_compressed.js"></script>
+    <!-- Load the default blocks -->
+    <script src="https://unpkg.com/blockly/blocks_compressed.js"></script>
+    <!-- Load a generator -->
+    <script src="https://unpkg.com/blockly/javascript_compressed.js"></script>
+    <!-- Load a message file -->
+    <script src="https://unpkg.com/blockly/msg/en.js"></script>
+
+    <script src="https://unpkg.com/@mit-app-inventor/blockly-block-lexical-variables/dist/index.js"></script>
+
+    <script type='text/javascript' src='../src/index.js'></script>
 
     <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
         <category id="catLogic" colour="210" name="Logic">

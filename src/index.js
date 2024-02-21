@@ -22,9 +22,9 @@
  * @author samelh@google.com (Sam El-Husseini)
  */
 
-import * as Blockly from 'blockly';
-import {javascriptGenerator} from 'blockly/javascript';
-import * as LexicalVariables from '@mit-app-inventor/blockly-block-lexical-variables';
+// import * as Blockly from 'blockly';
+// import {javascriptGenerator} from 'blockly/javascript';
+// import {LexicalVariablesPlugin} from '@mit-app-inventor/blockly-block-lexical-variables';
 
 document.addEventListener("DOMContentLoaded", function () {
     const workspace = Blockly.inject('blocklyDiv',
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
     // Load lexical variable plugin
-    LexicalVariables.init(workspace);
+    LexicalVariablesPlugin.init(workspace);
 
     const button = document.getElementById('blocklyButton');
     button.addEventListener('click', function () {
