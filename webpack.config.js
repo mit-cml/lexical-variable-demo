@@ -30,7 +30,6 @@ module.exports = {
     mode: 'development',
     entry: {
         index: './src/index.js',
-        locale: './src/locale.js'
     },
     output: {
         path: path.resolve(__dirname, 'docs'),
