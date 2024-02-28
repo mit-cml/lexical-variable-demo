@@ -12,7 +12,7 @@ npm update @mit-app-inventor/blockly-block-lexical-variables
 ```
 then
 ```
-npm install
+npm install --legacy-peer-deps
 ```
 
 ## Running
@@ -26,3 +26,8 @@ npm run start
 
 Clicking the "Generate Code" link will send the generated code to the browser's
 console.
+
+## Build a deployable version into the 'docs' directory
+```
+npm run build
+```
