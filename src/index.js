@@ -22,15 +22,18 @@
  * @author samelh@google.com (Sam El-Husseini)
  */
 
-import * as Blockly from 'blockly';
+import * as Blockly from 'blockly/core';
+import * as libraryBlocks from 'blockly/blocks';
+import * as En from 'blockly/msg/en';
 import {javascriptGenerator} from 'blockly/javascript';
 import {LexicalVariablesPlugin} from '@mit-app-inventor/blockly-block-lexical-variables';
+
+Blockly.setLocale(En);
 
 document.addEventListener("DOMContentLoaded", function () {
     const workspace = Blockly.inject('blocklyDiv',
         {
             toolbox: document.getElementById('toolbox'),
-            media: 'media/'
         });
 
     // Load lexical variable plugin

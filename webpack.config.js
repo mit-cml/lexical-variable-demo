@@ -1,71 +1,66 @@
-/**
- * @license
- *
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/**
- * @fileoverview Webpack configuration file.
- * @author samelh@google.com (Sam El-Husseini)
- */
-
 const path = require('path');
-const webpack = require('webpack');
-const CopyPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
-    target: 'web',
-    mode: 'development',
-    entry: {
-        index: './src/index.js',
-    },
+// Base config that applies to either development or production mode.
+const config = {
+    entry: './src/index.js',
     output: {
+        // Compile the source files into a bundle.
+        filename: 'index.js',
         path: path.resolve(__dirname, 'docs'),
-        filename: '[name].js'
+        clean: true,
+    },
+    // Enable webpack-dev-server to get hot refresh of the app.
+    devServer: {
+        static: './build',
     },
     module: {
         rules: [
             {
-                // test: /(blockly\/.*\.js)$/,
-                test: /\.js$/,
-                resolve: {
-                    fullySpecified: false,
-                },
-                enforce: "pre",
-                // use: ["source-map-loader"],
-                use: [require.resolve('source-map-loader')],
+                // Load CSS files. They can be imported into JS files.
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader'],
             },
         ],
     },
     plugins: [
-        new webpack.optimize.ModuleConcatenationPlugin(),
-        new CopyPlugin([
-            {
-                from: path.resolve(__dirname, 'public'),
-                to: path.resolve(__dirname, 'docs')
-            }
-        ]),
-        // Copy over media resources from the Blockly package
-        new CopyPlugin([
-            {
-                from: path.resolve(__dirname, './node_modules/blockly/media'),
-                to: path.resolve(__dirname, 'docs/media')
-            }
-        ])
+        // Generate the HTML index page based on our template.
+        // This will output the same index page with the bundle we
+        // created above added in a script tag.
+        new HtmlWebpackPlugin({
+            template: 'src/index.html',
+        }),
     ],
-    devServer: {
-        port: 3000
+};
+
+module.exports = (env, argv) => {
+    if (argv.mode === 'development') {
+        // Set the output path to the `build` directory
+        // so we don't clobber production builds.
+        config.output.path = path.resolve(__dirname, 'build');
+
+        // Generate source maps for our code for easier debugging.
+        // Not suitable for production builds. If you want source maps in
+        // production, choose a different one from https://webpack.js.org/configuration/devtool
+        config.devtool = 'eval-cheap-module-source-map';
+
+        // Include the source maps for Blockly for easier debugging Blockly code.
+        config.module.rules.push({
+            test: /(blockly\/.*\.js)$/,
+            use: [require.resolve('source-map-loader')],
+            enforce: 'pre',
+        });
+
+        // Ignore spurious warnings from source-map-loader
+        // It can't find source maps for some Closure modules and that is expected
+        config.ignoreWarnings = [/Failed to parse source map/];
+        config.resolve = {
+            alias: {
+                blockly: path.resolve('./node_modules/blockly'),
+            },
+        };
+    } else {
+        config.devtool = 'source-map';
     }
+    return config;
 };
