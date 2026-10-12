@@ -10,8 +10,8 @@
     "start": "webpack serve --open --mode development"
   },
   "dependencies": {
-    "@mit-app-inventor/blockly-block-lexical-variables": "^3.0.0",
-    "blockly": "^10.0.0"
+    "@mit-app-inventor/blockly-block-lexical-variables": "^11.0.3",
+    "blockly": "^11.2.2"
   },
   "devDependencies": {
     "css-loader": "^6.7.1",
